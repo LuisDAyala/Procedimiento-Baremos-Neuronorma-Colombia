@@ -2,10 +2,15 @@
 title: "Procedimiento Baremos Neuronorma Colombia"
 author: "Luis Ayala"
 date: "15/9/2020"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
 ---
 
-## INTRODUCIÓN
+# Introducción
 
 El objetivo de este documento es ilustrar el procedimiento para el cálculo de las puntuaciones estándar de la batería neuropsicológica Neuronorma Colombia, esto con la intención de brindar una mejor comprensión del mismo y así promover el análisis crítico y el uso clínico informado de esta herramienta.
 
@@ -19,17 +24,17 @@ Finalmente, a continuación estan las referencias de las tesis de maestría que 
 
 - Espitia Mendieta, A. D. (2017). Funciones ejecutivas en el envejecimiento normal: Datos normativos con la batería Neuronorma.Colombia (UNIVERSIDAD NACIONAL DE COLOMBIA). Recuperado de http://bdigital.unal.edu.co/56861/7/angiedayanaespitiamendieta.2017.pdf 
 
-### Cargar paquetes 
+# Paquetes 
 
 El primer paso será cargar en R las librerias que utilizaremos
-```{r, message = FALSE}
+```{r message=FALSE}
 library(ggplot2)
 library(sur)
 library(dplyr)
 library(readxl)
 ```
 
-### Cargar base de datos
+# Cargar base de datos
 
 Asegúrese que la base de datos tenga las siguientes variables con los siguientes nombres:
 
@@ -47,7 +52,7 @@ setwd("C:/Users/asus/Desktop/Codido NeuroNorma")
 base_puntuaciones <- read_excel("base_puntuaciones.xlsx")
 ```
 
-### Maximización del tamaño de muestra
+# Maximización del tamaño de muestra
 
 Con el fin de aumentar el número de participantes en cada uno de los grupos de comparación por edad se realiza la estrategia de solapamiento de intervalos. Así, se crean 10 grupos de edad desde los cuales se generan datos normativos tomando como referencia un punto medio de edad. El rango de edad alrededor de cada punto medio es de 10 años.
 
@@ -99,7 +104,7 @@ grupo_10 <- base_puntuaciones%>%
 ```
 
 
-### Tabla porcentajes acumulados
+# Tabla porcentajes acumulados
 
 Una vez hemos conformados los 10 grupos de edad, creamos una tabla para cada grupo con las frecuencias y porcentajes acumulados de las  puntuaciones brutas por cada grupo de edad.
 
@@ -166,12 +171,11 @@ tabla_grupo10<-rename(tabla_grupo10, Variable = Frec.Var1,
 ```
 
 Tendremos entonces para cada grupo de edad una tabla como la siguiente, note que la columna "Variable" contiene las puntuaciones brutas de la prueba neuropsicologica:
-```{r}
-knitr::kable(tabla_grupo1, format="markdown")
-
+```{r echo=FALSE,rows.print = 15}
+rmarkdown::paged_table(tabla_grupo1)
 ```
 
-### Asignación de puntuaciones escalares 
+# Asignación de puntuaciones escalares 
 
 Ahora asignamos las puntuaciones escalares a las puntuaciones naturales segun los percentiles. La asignación de percentiles permite la transformación de las mismas a puntuaciones escalares con media 10 y desviación estándar 3 y la obtención de las Normalized Standar Score for Age (NSSA).
 
@@ -181,7 +185,7 @@ La siguiente imagen ilustra que puntuación escalar corresponde a que percentil:
 ```{r}
 tabla_grupo1<-tabla_grupo1%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -200,7 +204,7 @@ tabla_grupo1<-tabla_grupo1%>%
 
 tabla_grupo2<-tabla_grupo2%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -219,7 +223,7 @@ tabla_grupo2<-tabla_grupo2%>%
 
 tabla_grupo3<-tabla_grupo3%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -238,7 +242,7 @@ tabla_grupo3<-tabla_grupo3%>%
 
 tabla_grupo4<-tabla_grupo4%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -257,7 +261,7 @@ tabla_grupo4<-tabla_grupo4%>%
 
 tabla_grupo5<-tabla_grupo5%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -276,7 +280,7 @@ tabla_grupo5<-tabla_grupo5%>%
 
 tabla_grupo6<-tabla_grupo6%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -295,7 +299,7 @@ tabla_grupo6<-tabla_grupo6%>%
 
 tabla_grupo7<-tabla_grupo7%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -314,7 +318,7 @@ tabla_grupo7<-tabla_grupo7%>%
 
 tabla_grupo8<-tabla_grupo8%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -333,7 +337,7 @@ tabla_grupo8<-tabla_grupo8%>%
 
 tabla_grupo9<-tabla_grupo9%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -352,7 +356,7 @@ tabla_grupo9<-tabla_grupo9%>%
 
 tabla_grupo10<-tabla_grupo10%>%
   mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen > 1 & Porcen < 2 ~ 3,
+                                 Porcen >= 1 & Porcen < 2 ~ 3,
                                  Porcen >= 2 & Porcen < 3 ~ 4,
                                  Porcen >= 3 & Porcen < 6 ~ 5,
                                  Porcen >= 6 & Porcen < 11 ~ 6,
@@ -430,30 +434,32 @@ EscalarXEdadTotal<-rbind(EscalarXEdad_1, EscalarXEdad_2,EscalarXEdad_3,
                          EscalarXEdad_10)
 ```
 
-### Normalización de las puntuaciones escales
+# Normalización de las puntuaciones escales
 En las siguientes gráficas podemos ver como el asignar puntuaciones escalares hace que la distribución de los datos adopte una forma  cercana a la distrubución normal, con una media cercana a 10 y una desviasion estandar cercana a 3. Esto nos permite tomar el escalar 6 como criterio de alteración (>1sd) ademas de tener todas las pruebas en la misma unidad de medida.
 
-```{r}
+```{r echo=FALSE}
 
-ggplot(grupo_1, aes(x=Variable))+
-  geom_histogram(binwidth =1)
+par(
+  mfrow=c(1,2),
+  mar=c(4,4,1,0)
+)
 
-ggplot(Escalar_grupo1, aes(x=EscalarXEdad))+
-  geom_histogram(binwidth =1)
+hist(grupo_1$Variable, breaks=50 , xlim=c(0,100) , col=rgb(1,0,0,0.5) , xlab="Puntuación Natural" , ylab="" , main="" )
+hist(Escalar_grupo1$EscalarXEdad, breaks=18 , xlim=c(2,18) , col=rgb(0,0,1,0.5) , xlab="Puntuación Escalar" , ylab="" , main="")
 
 eje1<-Escalar_grupo1%>%
   select(EscalarXEdad)%>%
   summarise(mean(EscalarXEdad), sd(EscalarXEdad))
 
+
 knitr::kable(eje1, format="markdown")
 ```
 
-
-### Efecto de la escolaridad
+# Efecto de la escolaridad
 
 En este punto se realiza una regresión simple para determinar si es necesario hacer correcciones por escolaridad o no. Los criterios para esto son que el R squared sea mayor a 0.05 (5% de varianza explicada) y la Beta significativa p<0.05. También graficamos la regresión para comprender mejor la relación entre las variables.
 
-```{r message = FALSE}
+```{r echo=FALSE, message = FALSE}
 ggplot(EscalarXEdadTotal, aes(x=Escolaridad, y= EscalarXEdad))+
   geom_point()+
   stat_smooth(method = lm)
@@ -462,7 +468,7 @@ regresion<-lm(EscalarXEdad~ Escolaridad, data = EscalarXEdadTotal)
 summary(regresion)
 ```
 
-### Normas sin efecto de escolaridad
+# Normas sin efecto de escolaridad
 
 Si no se cumplieron los criterios para realizar las correcciones por escolaridad entonces el proceso terminaría en este punto.
 ```{r}
@@ -500,12 +506,12 @@ normas_grupo10<- tabla_grupo10%>%
 Para cada grupo de edad entonces tendríamos una tabla como la que se presenta a continuación, en la que encontramos la puntuacion bruta, el porcentaje acumulado a la que está asociada y su puntuacion escalar correspondiente.
 
 
-```{r}
-knitr::kable(normas_grupo1, format="markdown")
+```{r echo=FALSE, rows.print = 15}
+rmarkdown::paged_table(normas_grupo1)
 ```
 
 
-### Corrección por escolaridad
+# Corrección por escolaridad
 
 Si se cumplieron con los criterios para realizar una corrección por escolaridad entonces continuamos.
 
@@ -537,15 +543,18 @@ Esc_edad_esc<- data.frame(EscXEdad= (2:18),
            Esco18= (2:18 - trunc(beta * (18 - 11))))
 ```
 
-De esta forma obtendremos una tabla como la siguiente:
-```{r}
-knitr::kable(Esc_edad_esc, format="html")
 
+ 
+De esta forma obtendremos una tabla como la siguiente:
+
+
+```{r echo=FALSE, rows.print = 17}
+rmarkdown::paged_table(Esc_edad_esc)
 ```
 ***
 
 La primera columna nos muestra puntuación escalar ajustada por edad, las demás columnas nos muestran entonces que esclarar le corresponde a un sujeto dado un determinado nivel de escolaridad, que va de 0 años a 18 años.
 
-De esta manera tendriamos las puntuaciones escalares correjidas por edad y escolaridad, solo tendriamos que exportar las tablas que hemos creado. Para el uso clínico práctico existe una unidad de trabajo la cual crea un perfil cognitivo del paciente a partir de las puntuaciones brutas en las pruebas  e información demografica como lo es la edad y la escolaridad.
+De esta manera tendriamos las puntuaciones escalares corregidas por edad y escolaridad, solo tendriamos que exportar las tablas que hemos creado. Para el uso clínico práctico existe una unidad de trabajo la cual crea un perfil cognitivo del paciente a partir de las puntuaciones brutas en las pruebas  e información demografica como lo es la edad y la escolaridad.
 
 ***
