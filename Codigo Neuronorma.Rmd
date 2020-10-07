@@ -48,7 +48,7 @@ Variable <- Puntuaciones brutas de la prueba a estandarizar
 
 En este ejemplo se carga la base de datos desde Excel, pero puede hacerlo de la forma que prefiera.  Asegúrese asignar el nombre base_puntuaciones a su base de datos para que el código corra sin mayores modificaciones, de la misma forma establezca el Working Directory según la ubicación de su archivo.
 ```{r}
-setwd("C:/Users/asus/Desktop/Codido NeuroNorma")
+setwd("C:/Users/asus/Desktop/Procedimiento-Baremos-Neuronorma-Colombia")
 base_puntuaciones <- read_excel("base_puntuaciones.xlsx")
 ```
 
@@ -103,6 +103,54 @@ grupo_10 <- base_puntuaciones%>%
   filter(Edad > 77)
 ```
 
+# Análisis descriptivos y correlaciones
+
+Este primer análisis nos permitirá examinar las variables y evaluar su relación con las puntuaciones en la prueba neuropsicológica.
+
+## Descriptivos
+
+En primer lugar, calcularemos los estadísticos descriptivos para las variables Edad, Escolaridad y Variable siendo esta ultima las puntuaciones de la prueba neuropsicológica.
+```{r}
+descriptivos<-rbind(Edad=summary(base_puntuaciones$Edad), Escolaridad=summary(base_puntuaciones$Escolaridad),Variable=summary(base_puntuaciones$Variable))
+sd<-c(sd(base_puntuaciones$Edad),sd(base_puntuaciones$Escolaridad),sd(base_puntuaciones$Variable))
+descriptivos<-data.frame(cbind(descriptivos, sd))
+colnames(descriptivos)<-c("Min", "1Q", "Mediana", "Media", "3Q","Max", "ds")
+
+
+knitr::kable(descriptivos, format="markdown")
+```
+
+
+
+## Gráfico de cajas y bigotes
+
+Ahora crearemos gráficos de cajas y bigotes, esto nos permitirá decidir que correlación es más apropiada, si en el gráfico se observan outliers o la distribución esta sesgada alejándose de la distribución normal, opte por la correlación de spearman, puede hacer esto cambiando el argumento method de "pearson" a "spearman" en la sección de correlación.
+```{r echo=FALSE, fig.height = 3, fig.width = 5}
+
+ggplot(base_puntuaciones, aes(Edad, ))+
+  geom_boxplot(fill="lightblue")+
+  theme_classic()
+
+ggplot(base_puntuaciones, aes(Escolaridad, ))+
+  geom_boxplot(fill="lightblue")+
+  theme_classic()
+
+ggplot(base_puntuaciones, aes(Variable, ))+
+  geom_boxplot(fill="lightblue")+
+  theme_classic()
+
+```
+
+## Correlación y determinación
+
+Ahora calcularemos los coeficientes de correlación y determinación de las variables. De esta manera podremos evaluar si hay una relación lineal entre las variables demográficas y las puntuaciones de la prueba y que tan fuerte es. 
+```{r}
+correlaciones<- c(cor(base_puntuaciones$Edad, base_puntuaciones$Variable, method = "pearson"), cor(base_puntuaciones$Escolaridad, base_puntuaciones$Variable, method = "pearson"))
+cor_det<-data.frame(cbind(Correlación=correlaciones, Determinación=correlaciones^2))
+rownames(cor_det) <- c("Edad", "Escolaridad")
+
+knitr::kable(cor_det, format="markdown")
+```
 
 # Tabla porcentajes acumulados
 
