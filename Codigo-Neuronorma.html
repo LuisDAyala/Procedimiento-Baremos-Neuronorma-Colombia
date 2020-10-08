@@ -2963,69 +2963,28 @@ knitr::kable(cor_det, format=&quot;markdown&quot;)</code></pre>
 <div id="tabla-porcentajes-acumulados" class="section level1">
 <h1><span class="header-section-number">6</span> Tabla porcentajes acumulados</h1>
 <p>Una vez hemos conformados los 10 grupos de edad, creamos una tabla para cada grupo con las frecuencias y porcentajes acumulados de las puntuaciones brutas por cada grupo de edad.</p>
-<pre class="r"><code>tabla_grupo1&lt;-cbind(Frec=data.frame(table(grupo_1$Variable)),
-                    Acumu=cumsum(table(grupo_1$Variable)),
-                    Porcen=cumulative.table(grupo_1$Variable))
-tabla_grupo1&lt;-rename(tabla_grupo1, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
+<pre class="r"><code>tabla&lt;- function(x){
+        tabla&lt;-cbind(data.frame(table(x$Variable)),
+                     cumsum(table(x$Variable)),
+                     cumulative.table(x$Variable))
+        colnames(tabla)&lt;-c(&quot;Variable&quot;, &quot;Frecuencia&quot;, &quot;Frecuencia A.&quot;, &quot;Porcen&quot;)
+        tabla
+}
 
-tabla_grupo2&lt;-cbind(Frec=data.frame(table(grupo_2$Variable)),
-                    Acumu=cumsum(table(grupo_2$Variable)),
-                    Porcen=cumulative.table(grupo_2$Variable))
-tabla_grupo2&lt;-rename(tabla_grupo2, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo3&lt;-cbind(Frec=data.frame(table(grupo_3$Variable)),
-                    Acumu=cumsum(table(grupo_3$Variable)),
-                    Porcen=cumulative.table(grupo_3$Variable))
-tabla_grupo3&lt;-rename(tabla_grupo3, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo4&lt;-cbind(Frec=data.frame(table(grupo_4$Variable)),
-                    Acumu=cumsum(table(grupo_4$Variable)),
-                    Porcen=cumulative.table(grupo_4$Variable))
-tabla_grupo4&lt;-rename(tabla_grupo4, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo5&lt;-cbind(Frec=data.frame(table(grupo_5$Variable)),
-                    Acumu=cumsum(table(grupo_5$Variable)),
-                    Porcen=cumulative.table(grupo_5$Variable))
-tabla_grupo5&lt;-rename(tabla_grupo5, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo6&lt;-cbind(Frec=data.frame(table(grupo_6$Variable)),
-                    Acumu=cumsum(table(grupo_6$Variable)),
-                    Porcen=cumulative.table(grupo_6$Variable))
-tabla_grupo6&lt;-rename(tabla_grupo6, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo7&lt;-cbind(Frec=data.frame(table(grupo_7$Variable)),
-                    Acumu=cumsum(table(grupo_7$Variable)),
-                    Porcen=cumulative.table(grupo_7$Variable))
-tabla_grupo7&lt;-rename(tabla_grupo7, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo8&lt;-cbind(Frec=data.frame(table(grupo_8$Variable)),
-                    Acumu=cumsum(table(grupo_8$Variable)),
-                    Porcen=cumulative.table(grupo_8$Variable))
-tabla_grupo8&lt;-rename(tabla_grupo8, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo9&lt;-cbind(Frec=data.frame(table(grupo_9$Variable)),
-                    Acumu=cumsum(table(grupo_9$Variable)),
-                    Porcen=cumulative.table(grupo_9$Variable))
-tabla_grupo9&lt;-rename(tabla_grupo9, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo10&lt;-cbind(Frec=data.frame(table(grupo_10$Variable)),
-                     Acumu=cumsum(table(grupo_10$Variable)),
-                     Porcen=cumulative.table(grupo_10$Variable))
-tabla_grupo10&lt;-rename(tabla_grupo10, Variable = Frec.Var1, 
-                      Frecuencia=Frec.Freq)</code></pre>
+tabla_grupo1&lt;-tabla(grupo_1)
+tabla_grupo2&lt;-tabla(grupo_2)
+tabla_grupo3&lt;-tabla(grupo_3)
+tabla_grupo4&lt;-tabla(grupo_4)
+tabla_grupo5&lt;-tabla(grupo_5)
+tabla_grupo6&lt;-tabla(grupo_6)
+tabla_grupo7&lt;-tabla(grupo_7)
+tabla_grupo8&lt;-tabla(grupo_8)
+tabla_grupo9&lt;-tabla(grupo_9)
+tabla_grupo10&lt;-tabla(grupo_10)</code></pre>
 Tendremos entonces para cada grupo de edad una tabla como la siguiente, note que la columna “Variable” contiene las puntuaciones brutas de la prueba neuropsicologica:
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Variable"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Frecuencia"],"name":[2],"type":["int"],"align":["right"]},{"label":["Acumu"],"name":[3],"type":["int"],"align":["right"]},{"label":["Porcen"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"2","3":"2","4":"1.503759","_rn_":"1"},{"1":"2","2":"1","3":"3","4":"2.255639","_rn_":"2"},{"1":"3","2":"2","3":"5","4":"3.759398","_rn_":"3"},{"1":"4","2":"2","3":"7","4":"5.263158","_rn_":"4"},{"1":"5","2":"1","3":"8","4":"6.015038","_rn_":"5"},{"1":"6","2":"2","3":"10","4":"7.518797","_rn_":"6"},{"1":"7","2":"1","3":"11","4":"8.270677","_rn_":"7"},{"1":"9","2":"1","3":"12","4":"9.022556","_rn_":"9"},{"1":"10","2":"2","3":"14","4":"10.526316","_rn_":"10"},{"1":"11","2":"1","3":"15","4":"11.278195","_rn_":"11"},{"1":"12","2":"1","3":"16","4":"12.030075","_rn_":"12"},{"1":"13","2":"2","3":"18","4":"13.533835","_rn_":"13"},{"1":"14","2":"1","3":"19","4":"14.285714","_rn_":"14"},{"1":"16","2":"1","3":"20","4":"15.037594","_rn_":"16"},{"1":"17","2":"1","3":"21","4":"15.789474","_rn_":"17"},{"1":"20","2":"2","3":"23","4":"17.293233","_rn_":"20"},{"1":"21","2":"2","3":"25","4":"18.796992","_rn_":"21"},{"1":"23","2":"2","3":"27","4":"20.300752","_rn_":"23"},{"1":"26","2":"2","3":"29","4":"21.804511","_rn_":"26"},{"1":"27","2":"5","3":"34","4":"25.563910","_rn_":"27"},{"1":"28","2":"2","3":"36","4":"27.067669","_rn_":"28"},{"1":"30","2":"1","3":"37","4":"27.819549","_rn_":"30"},{"1":"31","2":"1","3":"38","4":"28.571429","_rn_":"31"},{"1":"32","2":"3","3":"41","4":"30.827068","_rn_":"32"},{"1":"34","2":"1","3":"42","4":"31.578947","_rn_":"34"},{"1":"35","2":"2","3":"44","4":"33.082707","_rn_":"35"},{"1":"36","2":"1","3":"45","4":"33.834586","_rn_":"36"},{"1":"37","2":"2","3":"47","4":"35.338346","_rn_":"37"},{"1":"38","2":"1","3":"48","4":"36.090226","_rn_":"38"},{"1":"39","2":"2","3":"50","4":"37.593985","_rn_":"39"},{"1":"40","2":"1","3":"51","4":"38.345865","_rn_":"40"},{"1":"41","2":"3","3":"54","4":"40.601504","_rn_":"41"},{"1":"42","2":"3","3":"57","4":"42.857143","_rn_":"42"},{"1":"45","2":"1","3":"58","4":"43.609023","_rn_":"45"},{"1":"46","2":"1","3":"59","4":"44.360902","_rn_":"46"},{"1":"47","2":"2","3":"61","4":"45.864662","_rn_":"47"},{"1":"49","2":"1","3":"62","4":"46.616541","_rn_":"49"},{"1":"53","2":"1","3":"63","4":"47.368421","_rn_":"53"},{"1":"54","2":"1","3":"64","4":"48.120301","_rn_":"54"},{"1":"55","2":"2","3":"66","4":"49.624060","_rn_":"55"},{"1":"56","2":"1","3":"67","4":"50.375940","_rn_":"56"},{"1":"57","2":"1","3":"68","4":"51.127820","_rn_":"57"},{"1":"59","2":"1","3":"69","4":"51.879699","_rn_":"59"},{"1":"60","2":"2","3":"71","4":"53.383459","_rn_":"60"},{"1":"61","2":"3","3":"74","4":"55.639098","_rn_":"61"},{"1":"62","2":"2","3":"76","4":"57.142857","_rn_":"62"},{"1":"64","2":"4","3":"80","4":"60.150376","_rn_":"64"},{"1":"65","2":"2","3":"82","4":"61.654135","_rn_":"65"},{"1":"66","2":"1","3":"83","4":"62.406015","_rn_":"66"},{"1":"67","2":"1","3":"84","4":"63.157895","_rn_":"67"},{"1":"69","2":"1","3":"85","4":"63.909774","_rn_":"69"},{"1":"70","2":"2","3":"87","4":"65.413534","_rn_":"70"},{"1":"71","2":"3","3":"90","4":"67.669173","_rn_":"71"},{"1":"72","2":"1","3":"91","4":"68.421053","_rn_":"72"},{"1":"73","2":"2","3":"93","4":"69.924812","_rn_":"73"},{"1":"75","2":"3","3":"96","4":"72.180451","_rn_":"75"},{"1":"76","2":"1","3":"97","4":"72.932331","_rn_":"76"},{"1":"77","2":"2","3":"99","4":"74.436090","_rn_":"77"},{"1":"78","2":"3","3":"102","4":"76.691729","_rn_":"78"},{"1":"79","2":"2","3":"104","4":"78.195489","_rn_":"79"},{"1":"80","2":"4","3":"108","4":"81.203008","_rn_":"80"},{"1":"81","2":"2","3":"110","4":"82.706767","_rn_":"81"},{"1":"82","2":"1","3":"111","4":"83.458647","_rn_":"82"},{"1":"83","2":"1","3":"112","4":"84.210526","_rn_":"83"},{"1":"84","2":"1","3":"113","4":"84.962406","_rn_":"84"},{"1":"86","2":"1","3":"114","4":"85.714286","_rn_":"86"},{"1":"87","2":"1","3":"115","4":"86.466165","_rn_":"87"},{"1":"88","2":"1","3":"116","4":"87.218045","_rn_":"88"},{"1":"89","2":"3","3":"119","4":"89.473684","_rn_":"89"},{"1":"91","2":"1","3":"120","4":"90.225564","_rn_":"91"},{"1":"94","2":"1","3":"121","4":"90.977444","_rn_":"94"},{"1":"95","2":"2","3":"123","4":"92.481203","_rn_":"95"},{"1":"96","2":"3","3":"126","4":"94.736842","_rn_":"96"},{"1":"99","2":"3","3":"129","4":"96.992481","_rn_":"99"},{"1":"100","2":"4","3":"133","4":"100.000000","_rn_":"100"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[15],"max":[15]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Variable"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Frecuencia"],"name":[2],"type":["int"],"align":["right"]},{"label":["Frecuencia A."],"name":[3],"type":["int"],"align":["right"]},{"label":["Porcen"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"2","3":"2","4":"1.503759","_rn_":"1"},{"1":"2","2":"1","3":"3","4":"2.255639","_rn_":"2"},{"1":"3","2":"2","3":"5","4":"3.759398","_rn_":"3"},{"1":"4","2":"2","3":"7","4":"5.263158","_rn_":"4"},{"1":"5","2":"1","3":"8","4":"6.015038","_rn_":"5"},{"1":"6","2":"2","3":"10","4":"7.518797","_rn_":"6"},{"1":"7","2":"1","3":"11","4":"8.270677","_rn_":"7"},{"1":"9","2":"1","3":"12","4":"9.022556","_rn_":"9"},{"1":"10","2":"2","3":"14","4":"10.526316","_rn_":"10"},{"1":"11","2":"1","3":"15","4":"11.278195","_rn_":"11"},{"1":"12","2":"1","3":"16","4":"12.030075","_rn_":"12"},{"1":"13","2":"2","3":"18","4":"13.533835","_rn_":"13"},{"1":"14","2":"1","3":"19","4":"14.285714","_rn_":"14"},{"1":"16","2":"1","3":"20","4":"15.037594","_rn_":"16"},{"1":"17","2":"1","3":"21","4":"15.789474","_rn_":"17"},{"1":"20","2":"2","3":"23","4":"17.293233","_rn_":"20"},{"1":"21","2":"2","3":"25","4":"18.796992","_rn_":"21"},{"1":"23","2":"2","3":"27","4":"20.300752","_rn_":"23"},{"1":"26","2":"2","3":"29","4":"21.804511","_rn_":"26"},{"1":"27","2":"5","3":"34","4":"25.563910","_rn_":"27"},{"1":"28","2":"2","3":"36","4":"27.067669","_rn_":"28"},{"1":"30","2":"1","3":"37","4":"27.819549","_rn_":"30"},{"1":"31","2":"1","3":"38","4":"28.571429","_rn_":"31"},{"1":"32","2":"3","3":"41","4":"30.827068","_rn_":"32"},{"1":"34","2":"1","3":"42","4":"31.578947","_rn_":"34"},{"1":"35","2":"2","3":"44","4":"33.082707","_rn_":"35"},{"1":"36","2":"1","3":"45","4":"33.834586","_rn_":"36"},{"1":"37","2":"2","3":"47","4":"35.338346","_rn_":"37"},{"1":"38","2":"1","3":"48","4":"36.090226","_rn_":"38"},{"1":"39","2":"2","3":"50","4":"37.593985","_rn_":"39"},{"1":"40","2":"1","3":"51","4":"38.345865","_rn_":"40"},{"1":"41","2":"3","3":"54","4":"40.601504","_rn_":"41"},{"1":"42","2":"3","3":"57","4":"42.857143","_rn_":"42"},{"1":"45","2":"1","3":"58","4":"43.609023","_rn_":"45"},{"1":"46","2":"1","3":"59","4":"44.360902","_rn_":"46"},{"1":"47","2":"2","3":"61","4":"45.864662","_rn_":"47"},{"1":"49","2":"1","3":"62","4":"46.616541","_rn_":"49"},{"1":"53","2":"1","3":"63","4":"47.368421","_rn_":"53"},{"1":"54","2":"1","3":"64","4":"48.120301","_rn_":"54"},{"1":"55","2":"2","3":"66","4":"49.624060","_rn_":"55"},{"1":"56","2":"1","3":"67","4":"50.375940","_rn_":"56"},{"1":"57","2":"1","3":"68","4":"51.127820","_rn_":"57"},{"1":"59","2":"1","3":"69","4":"51.879699","_rn_":"59"},{"1":"60","2":"2","3":"71","4":"53.383459","_rn_":"60"},{"1":"61","2":"3","3":"74","4":"55.639098","_rn_":"61"},{"1":"62","2":"2","3":"76","4":"57.142857","_rn_":"62"},{"1":"64","2":"4","3":"80","4":"60.150376","_rn_":"64"},{"1":"65","2":"2","3":"82","4":"61.654135","_rn_":"65"},{"1":"66","2":"1","3":"83","4":"62.406015","_rn_":"66"},{"1":"67","2":"1","3":"84","4":"63.157895","_rn_":"67"},{"1":"69","2":"1","3":"85","4":"63.909774","_rn_":"69"},{"1":"70","2":"2","3":"87","4":"65.413534","_rn_":"70"},{"1":"71","2":"3","3":"90","4":"67.669173","_rn_":"71"},{"1":"72","2":"1","3":"91","4":"68.421053","_rn_":"72"},{"1":"73","2":"2","3":"93","4":"69.924812","_rn_":"73"},{"1":"75","2":"3","3":"96","4":"72.180451","_rn_":"75"},{"1":"76","2":"1","3":"97","4":"72.932331","_rn_":"76"},{"1":"77","2":"2","3":"99","4":"74.436090","_rn_":"77"},{"1":"78","2":"3","3":"102","4":"76.691729","_rn_":"78"},{"1":"79","2":"2","3":"104","4":"78.195489","_rn_":"79"},{"1":"80","2":"4","3":"108","4":"81.203008","_rn_":"80"},{"1":"81","2":"2","3":"110","4":"82.706767","_rn_":"81"},{"1":"82","2":"1","3":"111","4":"83.458647","_rn_":"82"},{"1":"83","2":"1","3":"112","4":"84.210526","_rn_":"83"},{"1":"84","2":"1","3":"113","4":"84.962406","_rn_":"84"},{"1":"86","2":"1","3":"114","4":"85.714286","_rn_":"86"},{"1":"87","2":"1","3":"115","4":"86.466165","_rn_":"87"},{"1":"88","2":"1","3":"116","4":"87.218045","_rn_":"88"},{"1":"89","2":"3","3":"119","4":"89.473684","_rn_":"89"},{"1":"91","2":"1","3":"120","4":"90.225564","_rn_":"91"},{"1":"94","2":"1","3":"121","4":"90.977444","_rn_":"94"},{"1":"95","2":"2","3":"123","4":"92.481203","_rn_":"95"},{"1":"96","2":"3","3":"126","4":"94.736842","_rn_":"96"},{"1":"99","2":"3","3":"129","4":"96.992481","_rn_":"99"},{"1":"100","2":"4","3":"133","4":"100.000000","_rn_":"100"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[15],"max":[15]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -3037,195 +2996,37 @@ Tendremos entonces para cada grupo de edad una tabla como la siguiente, note que
 <img src="data:image/png;base64,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" alt />
 <p class="caption">Caption for picture.</p>
 </div>
-<pre class="r"><code>tabla_grupo1&lt;-tabla_grupo1%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
+<pre class="r"><code>escalares&lt;-function(x){
+        mutate(x, EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
+                                       Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
+                                       Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
+                                       Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
+                                       Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
+                                       Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
+                                       Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
+                                       Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
+                                       Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
+                                       Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
+                                       Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
+                                       Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
+                                       Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
+                                       Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
+                                       Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
+                                       Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
+                                       Porcen &gt;= 100 ~ 18))       
+}
 
-tabla_grupo2&lt;-tabla_grupo2%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
 
-tabla_grupo3&lt;-tabla_grupo3%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
-
-tabla_grupo4&lt;-tabla_grupo4%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
-
-tabla_grupo5&lt;-tabla_grupo5%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
-
-tabla_grupo6&lt;-tabla_grupo6%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
-
-tabla_grupo7&lt;-tabla_grupo7%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
-
-tabla_grupo8&lt;-tabla_grupo8%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
-
-tabla_grupo9&lt;-tabla_grupo9%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))
-
-tabla_grupo10&lt;-tabla_grupo10%&gt;%
-  mutate(EscalarXEdad= case_when(Porcen &lt; 1 ~ 2,
-                                 Porcen &gt;= 1 &amp; Porcen &lt; 2 ~ 3,
-                                 Porcen &gt;= 2 &amp; Porcen &lt; 3 ~ 4,
-                                 Porcen &gt;= 3 &amp; Porcen &lt; 6 ~ 5,
-                                 Porcen &gt;= 6 &amp; Porcen &lt; 11 ~ 6,
-                                 Porcen &gt;= 11 &amp; Porcen &lt; 19 ~ 7,
-                                 Porcen &gt;= 19 &amp; Porcen &lt; 29 ~ 8,
-                                 Porcen &gt;= 29 &amp; Porcen &lt; 41 ~ 9,
-                                 Porcen &gt;= 41 &amp; Porcen &lt; 60 ~ 10,
-                                 Porcen &gt;= 60 &amp; Porcen &lt; 72 ~ 11,
-                                 Porcen &gt;= 72 &amp; Porcen &lt; 82 ~ 12,
-                                 Porcen &gt;= 82 &amp; Porcen &lt; 90 ~ 13,
-                                 Porcen &gt;= 90 &amp; Porcen &lt; 95 ~ 14,
-                                 Porcen &gt;= 95 &amp; Porcen &lt; 98 ~ 15,
-                                 Porcen &gt;= 98 &amp; Porcen &lt; 99 ~ 16,
-                                 Porcen &gt;= 99 &amp; Porcen &lt; 100 ~ 17,
-                                 Porcen &gt;= 100 ~ 18))</code></pre>
+tabla_grupo1&lt;-escalares(tabla_grupo1)
+tabla_grupo2&lt;-escalares(tabla_grupo2)
+tabla_grupo3&lt;-escalares(tabla_grupo3)
+tabla_grupo4&lt;-escalares(tabla_grupo4)
+tabla_grupo5&lt;-escalares(tabla_grupo5)
+tabla_grupo6&lt;-escalares(tabla_grupo6)
+tabla_grupo7&lt;-escalares(tabla_grupo7)
+tabla_grupo8&lt;-escalares(tabla_grupo8)
+tabla_grupo9&lt;-escalares(tabla_grupo9)
+tabla_grupo10&lt;-escalares(tabla_grupo10)</code></pre>
 <p>El siguiente paso será asignar las puntuaciones escalares corregidas por edad, que acabamos de obtener, a cada sujeto de nuestra base de datos.</p>
 <pre class="r"><code>Escalar_grupo1 &lt;- merge(grupo_1, tabla_grupo1, by.x = &quot;Variable&quot;)
 EscalarXEdad_1&lt;-Escalar_grupo1%&gt;%

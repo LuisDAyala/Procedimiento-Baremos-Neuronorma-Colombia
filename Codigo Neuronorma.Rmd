@@ -157,65 +157,24 @@ knitr::kable(cor_det, format="markdown")
 Una vez hemos conformados los 10 grupos de edad, creamos una tabla para cada grupo con las frecuencias y porcentajes acumulados de las  puntuaciones brutas por cada grupo de edad.
 
 ```{r}
-tabla_grupo1<-cbind(Frec=data.frame(table(grupo_1$Variable)),
-                    Acumu=cumsum(table(grupo_1$Variable)),
-                    Porcen=cumulative.table(grupo_1$Variable))
-tabla_grupo1<-rename(tabla_grupo1, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
+tabla<- function(x){
+        tabla<-cbind(data.frame(table(x$Variable)),
+                     cumsum(table(x$Variable)),
+                     cumulative.table(x$Variable))
+        colnames(tabla)<-c("Variable", "Frecuencia", "Frecuencia A.", "Porcen")
+        tabla
+}
 
-tabla_grupo2<-cbind(Frec=data.frame(table(grupo_2$Variable)),
-                    Acumu=cumsum(table(grupo_2$Variable)),
-                    Porcen=cumulative.table(grupo_2$Variable))
-tabla_grupo2<-rename(tabla_grupo2, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo3<-cbind(Frec=data.frame(table(grupo_3$Variable)),
-                    Acumu=cumsum(table(grupo_3$Variable)),
-                    Porcen=cumulative.table(grupo_3$Variable))
-tabla_grupo3<-rename(tabla_grupo3, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo4<-cbind(Frec=data.frame(table(grupo_4$Variable)),
-                    Acumu=cumsum(table(grupo_4$Variable)),
-                    Porcen=cumulative.table(grupo_4$Variable))
-tabla_grupo4<-rename(tabla_grupo4, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo5<-cbind(Frec=data.frame(table(grupo_5$Variable)),
-                    Acumu=cumsum(table(grupo_5$Variable)),
-                    Porcen=cumulative.table(grupo_5$Variable))
-tabla_grupo5<-rename(tabla_grupo5, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo6<-cbind(Frec=data.frame(table(grupo_6$Variable)),
-                    Acumu=cumsum(table(grupo_6$Variable)),
-                    Porcen=cumulative.table(grupo_6$Variable))
-tabla_grupo6<-rename(tabla_grupo6, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo7<-cbind(Frec=data.frame(table(grupo_7$Variable)),
-                    Acumu=cumsum(table(grupo_7$Variable)),
-                    Porcen=cumulative.table(grupo_7$Variable))
-tabla_grupo7<-rename(tabla_grupo7, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo8<-cbind(Frec=data.frame(table(grupo_8$Variable)),
-                    Acumu=cumsum(table(grupo_8$Variable)),
-                    Porcen=cumulative.table(grupo_8$Variable))
-tabla_grupo8<-rename(tabla_grupo8, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo9<-cbind(Frec=data.frame(table(grupo_9$Variable)),
-                    Acumu=cumsum(table(grupo_9$Variable)),
-                    Porcen=cumulative.table(grupo_9$Variable))
-tabla_grupo9<-rename(tabla_grupo9, Variable = Frec.Var1, 
-                     Frecuencia=Frec.Freq)
-
-tabla_grupo10<-cbind(Frec=data.frame(table(grupo_10$Variable)),
-                     Acumu=cumsum(table(grupo_10$Variable)),
-                     Porcen=cumulative.table(grupo_10$Variable))
-tabla_grupo10<-rename(tabla_grupo10, Variable = Frec.Var1, 
-                      Frecuencia=Frec.Freq)
+tabla_grupo1<-tabla(grupo_1)
+tabla_grupo2<-tabla(grupo_2)
+tabla_grupo3<-tabla(grupo_3)
+tabla_grupo4<-tabla(grupo_4)
+tabla_grupo5<-tabla(grupo_5)
+tabla_grupo6<-tabla(grupo_6)
+tabla_grupo7<-tabla(grupo_7)
+tabla_grupo8<-tabla(grupo_8)
+tabla_grupo9<-tabla(grupo_9)
+tabla_grupo10<-tabla(grupo_10)
 ```
 
 Tendremos entonces para cada grupo de edad una tabla como la siguiente, note que la columna "Variable" contiene las puntuaciones brutas de la prueba neuropsicologica:
@@ -231,195 +190,37 @@ La siguiente imagen ilustra que puntuación escalar corresponde a que percentil:
 
 ![Caption for picture.](escalares.png)
 ```{r}
-tabla_grupo1<-tabla_grupo1%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
+escalares<-function(x){
+        mutate(x, EscalarXEdad= case_when(Porcen < 1 ~ 2,
+                                       Porcen >= 1 & Porcen < 2 ~ 3,
+                                       Porcen >= 2 & Porcen < 3 ~ 4,
+                                       Porcen >= 3 & Porcen < 6 ~ 5,
+                                       Porcen >= 6 & Porcen < 11 ~ 6,
+                                       Porcen >= 11 & Porcen < 19 ~ 7,
+                                       Porcen >= 19 & Porcen < 29 ~ 8,
+                                       Porcen >= 29 & Porcen < 41 ~ 9,
+                                       Porcen >= 41 & Porcen < 60 ~ 10,
+                                       Porcen >= 60 & Porcen < 72 ~ 11,
+                                       Porcen >= 72 & Porcen < 82 ~ 12,
+                                       Porcen >= 82 & Porcen < 90 ~ 13,
+                                       Porcen >= 90 & Porcen < 95 ~ 14,
+                                       Porcen >= 95 & Porcen < 98 ~ 15,
+                                       Porcen >= 98 & Porcen < 99 ~ 16,
+                                       Porcen >= 99 & Porcen < 100 ~ 17,
+                                       Porcen >= 100 ~ 18))       
+}
 
-tabla_grupo2<-tabla_grupo2%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
 
-tabla_grupo3<-tabla_grupo3%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
-
-tabla_grupo4<-tabla_grupo4%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
-
-tabla_grupo5<-tabla_grupo5%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
-
-tabla_grupo6<-tabla_grupo6%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
-
-tabla_grupo7<-tabla_grupo7%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
-
-tabla_grupo8<-tabla_grupo8%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
-
-tabla_grupo9<-tabla_grupo9%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
-
-tabla_grupo10<-tabla_grupo10%>%
-  mutate(EscalarXEdad= case_when(Porcen < 1 ~ 2,
-                                 Porcen >= 1 & Porcen < 2 ~ 3,
-                                 Porcen >= 2 & Porcen < 3 ~ 4,
-                                 Porcen >= 3 & Porcen < 6 ~ 5,
-                                 Porcen >= 6 & Porcen < 11 ~ 6,
-                                 Porcen >= 11 & Porcen < 19 ~ 7,
-                                 Porcen >= 19 & Porcen < 29 ~ 8,
-                                 Porcen >= 29 & Porcen < 41 ~ 9,
-                                 Porcen >= 41 & Porcen < 60 ~ 10,
-                                 Porcen >= 60 & Porcen < 72 ~ 11,
-                                 Porcen >= 72 & Porcen < 82 ~ 12,
-                                 Porcen >= 82 & Porcen < 90 ~ 13,
-                                 Porcen >= 90 & Porcen < 95 ~ 14,
-                                 Porcen >= 95 & Porcen < 98 ~ 15,
-                                 Porcen >= 98 & Porcen < 99 ~ 16,
-                                 Porcen >= 99 & Porcen < 100 ~ 17,
-                                 Porcen >= 100 ~ 18))
+tabla_grupo1<-escalares(tabla_grupo1)
+tabla_grupo2<-escalares(tabla_grupo2)
+tabla_grupo3<-escalares(tabla_grupo3)
+tabla_grupo4<-escalares(tabla_grupo4)
+tabla_grupo5<-escalares(tabla_grupo5)
+tabla_grupo6<-escalares(tabla_grupo6)
+tabla_grupo7<-escalares(tabla_grupo7)
+tabla_grupo8<-escalares(tabla_grupo8)
+tabla_grupo9<-escalares(tabla_grupo9)
+tabla_grupo10<-escalares(tabla_grupo10)
 ```
 
 
