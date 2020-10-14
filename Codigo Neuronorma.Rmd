@@ -123,35 +123,26 @@ knitr::kable(descriptivos, format="markdown")
 
 
 
-## Gráfico de cajas y bigotes
+## Gráficos Descriptivos
 
-Ahora crearemos gráficos de cajas y bigotes, esto nos permitirá decidir que correlación es más apropiada, si en el gráfico se observan outliers o la distribución esta sesgada alejándose de la distribución normal, opte por la correlación de spearman, puede hacer esto cambiando el argumento method de "pearson" a "spearman" en la sección de correlación.
-
-
-```{r echo=FALSE, fig.height = 3, fig.width = 8}
-
-ggplot(base_puntuaciones, aes(Variable, ))+
-  geom_boxplot(fill="lightblue")+
-  theme_classic()
-
-ggplot(base_puntuaciones, aes(Edad))+
-  geom_boxplot(fill="lightblue")+
-  theme_classic() ->p1
-ggplot(base_puntuaciones, aes(x= Edad, y= Variable))+
-        geom_point()+
-        theme_light()->p2
+Ahora crearemos gráficos de normalidad como un diagrama de dispersión, esto nos permitirá decidir que correlación es más apropiada, si en los gráfico se observan outliers o la distribución esta sesgada alejándose de la distribución normal, opte por la correlación de spearman, puede hacer esto cambiando el argumento method de "pearson" a "spearman" en la sección de correlación.
 
 
-ggplot(base_puntuaciones, aes(Escolaridad))+
-  geom_boxplot(fill="lightblue")+
-  theme_classic() ->p3
-ggplot(base_puntuaciones, aes(x= Escolaridad, y= Variable))+
-        geom_point()+
-        theme_light() ->p4
+```{r echo=FALSE, fig.show="hold", out.width="50%", fig.height = 5, fig.width =5 }
 
+par(pty="s") 
+qqnorm(base_puntuaciones$Edad, col="lightblue",  pch=20, ylab="Edad") 
+qqline(base_puntuaciones$Edad)
 
-grid.arrange(p1, p2, ncol=2)
-grid.arrange(p3, p4, ncol = 2)
+par(pty="s")
+plot(base_puntuaciones$Edad, base_puntuaciones$Variable, xlab = "Edad", ylab = "Variable", pch=20,  col="lightblue")
+
+par(pty="s")
+qqnorm(base_puntuaciones$Escolaridad, col="lightblue",  pch=20, ylab="Escolaridad") 
+qqline(base_puntuaciones$Escolaridad)
+
+par(pty="s")
+plot(base_puntuaciones$Escolaridad, base_puntuaciones$Variable, xlab = "Escolaridad", ylab = "Variable", pch=20,  col="lightblue")
 
 ```
 
